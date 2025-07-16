@@ -4,8 +4,11 @@ import BurgerBuilder from './BurgerBuilder/BurgerBuilder'
 const Main = props => {
   return (
     <div>
-        <Header />
+      <Header />
+      <div className='container'>
         <BurgerBuilder />
+      </div>
+
     </div>
   )
 }

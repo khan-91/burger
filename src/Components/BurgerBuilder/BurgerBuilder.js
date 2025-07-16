@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
-
+import Burger from './burger/Burger'
 export class BurgerBuilder extends Component {
   render() {
     return (
-      <div><p>BurgerBuilder</p></div>
+      <div>
+        <Burger />
+      </div>
     )
   }
 }
