@@ -35,7 +35,7 @@ const Controls = props => {
                             return <BuildControl
                                 label={item.label}
                                 type={item.type}
-                                key={Math.random()}
+                                key={item.type}
                                 added={() => props.ingredientAdded(item.type)}
                                 removed={() => props.ingredientRemoved(item.type)}
                             />
@@ -44,7 +44,7 @@ const Controls = props => {
 
                     }
                 </Card.Body>
-                <Card.Footer><h5>Price: BDT</h5></Card.Footer>
+                <Card.Footer><h5>Price: <strong>{props.price}</strong> BDT</h5></Card.Footer>
             </Card>
         </div>
     )

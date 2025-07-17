@@ -2,8 +2,8 @@ import Ingredients from "../Ingredients/Ingredients"
 import './Burger.css'
 const Burger = props => {
   let ingredientArr = props.ingredients.map(item => {
-    let ammountArr = [...Array(item.ammount).keys()]
-    return ammountArr.map(_ => {
+    let amountArr = [...Array(item.amount).keys()]
+    return amountArr.map(_ => {
       return <Ingredients type={item.type} key={Math.random()} />
     })
   }, [])
