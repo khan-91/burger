@@ -4,6 +4,7 @@ import Controls from './Controls/Controls';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Summary from './Summary/Summary';
+import { Navigate } from 'react-router-dom';
 
 const ingredientPrices = {
   salad: 20,
@@ -20,13 +21,14 @@ export class BurgerBuilder extends Component {
     totalPrice: 80,
     modalOpen: false,
     purchasable: false,
+    onClickCheckout:false,
   }
 
   updatePurchasable = ingredients => {
     const sum = ingredients.reduce((sum, element) => {
       return sum + element.amount;
     }, 0);
-    this.setState({purchasable: sum > 0})
+    this.setState({ purchasable: sum > 0 })
   }
 
   addIngredentHandle = type => {
@@ -65,6 +67,12 @@ export class BurgerBuilder extends Component {
     })
   }
 
+  handleCheckout = () => {
+    this.setState({
+      onClickCheckout:true
+    })
+  }
+
   render() {
     return (
       <div>
@@ -87,13 +95,14 @@ export class BurgerBuilder extends Component {
             <Summary ingredients={this.state.ingredients} />
           </Modal.Body>
           <Modal.Footer>
-            <Button variant='primary' onClick={this.toggleModal}>
+            <Button variant='primary' onClick={this.handleCheckout}>
               Continue to Checkout
             </Button>
             <Button variant='secondary' onClick={this.toggleModal}>
               Cancel
             </Button>
           </Modal.Footer>
+          {this.state.onClickCheckout && <Navigate to='/checkout' replace={true} />}
         </Modal>
       </div>
     )
