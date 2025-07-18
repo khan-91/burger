@@ -5,60 +5,37 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Summary from './Summary/Summary';
 import { Navigate } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { addIngredient, removeIngredient, updatePurchasable } from '../../Redux/actionCreators';
 
-const ingredientPrices = {
-  salad: 20,
-  cheese: 40,
-  meat: 60,
+
+const mapStateToProps = state => {
+  return {
+    ingredients: state.ingredients,
+    totalPrice: state.totalPrice,
+    purchasable: state.purchasable,
+  }
+}
+const mapDisPatchToProps = dispatch => {
+  return {
+    addIngredient: (igtype) => dispatch(addIngredient(igtype)),
+    removeIngredient: (igtype) => dispatch(removeIngredient(igtype)),
+    updatePurchasable: () => dispatch(updatePurchasable()),
+  }
 }
 export class BurgerBuilder extends Component {
   state = {
-    ingredients: [
-      { type: 'salad', amount: 0 },
-      { type: 'cheese', amount: 0 },
-      { type: 'meat', amount: 0 },
-    ],
-    totalPrice: 80,
     modalOpen: false,
-    purchasable: false,
-    onClickCheckout:false,
-  }
-
-  updatePurchasable = ingredients => {
-    const sum = ingredients.reduce((sum, element) => {
-      return sum + element.amount;
-    }, 0);
-    this.setState({ purchasable: sum > 0 })
   }
 
   addIngredentHandle = type => {
-    const ingredients = [...this.state.ingredients];
-    let newPrice = this.state.totalPrice + ingredientPrices[type];
-    for (let item of ingredients) {
-      if (item.type === type) {
-        item.amount++;
-        break;
-      }
-    }
-    this.setState({ ingredients: ingredients, totalPrice: newPrice });
-    this.updatePurchasable(ingredients);
+    this.props.addIngredient(type);
+    this.props.updatePurchasable();
   }
 
   removeIngredientHandle = type => {
-    const ingredients = [...this.state.ingredients];
-    let newPrice = this.state.totalPrice;
-    for (let item of ingredients) {
-      if (item.type === type) {
-        if (item.amount <= 0) {
-          return;
-        }
-        item.amount--;
-        newPrice -= ingredientPrices[type];
-        break;
-      }
-    }
-    this.setState({ ingredients: ingredients, totalPrice: newPrice });
-    this.updatePurchasable(ingredients);
+    this.props.removeIngredient(type);
+    this.props.updatePurchasable();
   }
 
   toggleModal = () => {
@@ -69,7 +46,7 @@ export class BurgerBuilder extends Component {
 
   handleCheckout = () => {
     this.setState({
-      onClickCheckout:true
+      onClickCheckout: true
     })
   }
 
@@ -77,13 +54,13 @@ export class BurgerBuilder extends Component {
     return (
       <div>
         <div className='d-flex flex-md-row flex-column'>
-          <Burger ingredients={this.state.ingredients} />
+          <Burger ingredients={this.props.ingredients} />
           <Controls
             ingredientAdded={this.addIngredentHandle}
             ingredientRemoved={this.removeIngredientHandle}
-            price={this.state.totalPrice}
+            price={this.props.totalPrice}
             toggleModal={this.toggleModal}
-            purchasable={this.state.purchasable}
+            purchasable={this.props.purchasable}
           />
         </div>
         <Modal show={this.state.modalOpen} onHide={this.toggleModal}>
@@ -91,8 +68,8 @@ export class BurgerBuilder extends Component {
             <Modal.Title>Your Order Summary</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <h5>Total price: {this.state.totalPrice.toFixed(0)} BDT</h5>
-            <Summary ingredients={this.state.ingredients} />
+            <h5>Total price: {this.props.totalPrice.toFixed(0)} BDT</h5>
+            <Summary ingredients={this.props.ingredients} />
           </Modal.Body>
           <Modal.Footer>
             <Button variant='primary' onClick={this.handleCheckout}>
@@ -109,4 +86,4 @@ export class BurgerBuilder extends Component {
   }
 }
 
-export default BurgerBuilder
+export default connect(mapStateToProps, mapDisPatchToProps)(BurgerBuilder);
