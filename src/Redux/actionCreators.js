@@ -45,6 +45,8 @@ export const fetchOrder = () => dispatch => {
     axios.get("https://burger-1b173-default-rtdb.firebaseio.com/orders.json")
     .then(response => {
         dispatch(loadOrders(response.data));
-        
     })
+    .catch(error => {
+        dispatch(orderLoadFailed());
+    });
 }

@@ -16,7 +16,7 @@ const NavigationBar = () => {
           <Navbar.Brand href='/' className="me-auto ms-md-1">
             <img src={Logo} alt="Logo" width="80px" />
           </Navbar.Brand>
-          <Nav className='me-md-1 flex-row'>
+          <Nav className='me-md-1 flex-row gap-3'>
             <Nav.Link as={Link} to='/'>Burger Builder</Nav.Link>
             <Nav.Link as={Link} to='/order'>Order</Nav.Link>
           </Nav>
