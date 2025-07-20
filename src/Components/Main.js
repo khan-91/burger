@@ -1,9 +1,8 @@
-import React from 'react'
+
 import Header from './Header/Header'
 import BurgerBuilder from './BurgerBuilder/BurgerBuilder'
 import { Route, Routes } from 'react-router-dom'
 import Order from './Order/Order'
-import Checkout from './Order/Checkout/Checkout'
 import NavigateWrapper from './Header/NavigateWrapper'
 const Main = props => {
   return (
