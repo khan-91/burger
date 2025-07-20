@@ -4,6 +4,8 @@ import BurgerBuilder from './BurgerBuilder/BurgerBuilder'
 import { Route, Routes } from 'react-router-dom'
 import Order from './Order/Order'
 import NavigateWrapper from './Header/NavigateWrapper'
+import Auth from './Auth/Auth'
+
 const Main = props => {
   return (
     <div>
@@ -12,8 +14,8 @@ const Main = props => {
         <Routes>
           <Route path='/' element={<BurgerBuilder />} />
           <Route path='/order' element={<Order />} />
-          {/* <Route path='/checkout' element={<Checkout />}/> */}
           <Route path='/checkout' element={<NavigateWrapper />} />
+          <Route path='/login' element={<Auth />} />
         </Routes> 
       </div>
 
