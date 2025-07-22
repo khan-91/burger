@@ -5,6 +5,12 @@ import Form from 'react-bootstrap/Form';
 import { Button } from 'react-bootstrap';
 
 export class Auth extends Component {
+    state = {
+        mode: "Sign Up"
+    }
+    switchModeHandler = () => {
+        this.setState({ mode: this.state.mode === "Sign Up" ? "Login" : "Sign Up" })
+    }
     render() {
         return (
             <div>
@@ -38,10 +44,12 @@ export class Auth extends Component {
                             errors.password = 'Must be atleast 4 charcters!';
                         }
 
-                        if (!values.passwordConfirm) {
-                            errors.passwordConfirm = 'Required';
-                        } else if (values.password !== values.passwordConfirm) {
-                            errors.passwordConfirm = 'Password does not match!!!';
+                        if (this.state.mode === "Sign Up") {
+                            if (!values.passwordConfirm) {
+                                errors.passwordConfirm = 'Required';
+                            } else if (values.password !== values.passwordConfirm) {
+                                errors.passwordConfirm = 'Password does not match!!!';
+                            }
                         }
                         return errors;
                     }}
@@ -53,6 +61,8 @@ export class Auth extends Component {
                             padding: "15px",
                             borderRadius: "5px",
                         }}>
+                            <Button className='mb-3 btn btn-lg' onClick={this.switchModeHandler} type='submit' style={{ backgroundColor: '#B22222', borderColor: '#B22222', width: "100%" }}>Switch to {this.state.mode === "Sign Up" ? "Login" : "Sign Up"}
+                            </Button>
                             <Form onSubmit={handleSubmit}>
                                 <FloatingLabel
                                     controlId="floatingInput"
@@ -71,14 +81,17 @@ export class Auth extends Component {
                                         onChange={handleChange} />
                                     <span style={{ color: 'red' }}>{errors.password}</span>
                                 </FloatingLabel>
-                                <FloatingLabel controlId="floatingConfirmPassword" label="Confirm Password"
-                                    className="mb-3">
-                                    <Form.Control name='passwordConfirm' type="password" placeholder="Confirm Password"
-                                        value={values.passwordConfirm}
-                                        onChange={handleChange} />
-                                    <span style={{ color: 'red' }}>{errors.passwordConfirm}</span>
-                                </FloatingLabel>
-                                <Button type='submit' style={{ backgroundColor: '#B22222', borderColor: '#B22222' }}>Sign up
+                                {this.state.mode === "Sign Up" ? <div>
+                                    <FloatingLabel controlId="floatingConfirmPassword" label="Confirm Password"
+                                        className="mb-3">
+                                        <Form.Control name='passwordConfirm' type="password" placeholder="Confirm Password"
+                                            value={values.passwordConfirm}
+                                            onChange={handleChange} />
+                                        <span style={{ color: 'red' }}>{errors.passwordConfirm}</span>
+                                    </FloatingLabel>
+                                </div> : null}
+
+                                <Button type='submit' style={{ backgroundColor: '#B22222', borderColor: '#B22222' }}>{this.state.mode === "Sign Up" ? "Sign Up" : "Login"}
                                 </Button>
                             </Form>
                         </div>
