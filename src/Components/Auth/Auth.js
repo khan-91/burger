@@ -1,9 +1,16 @@
-import React, { Component } from 'react'
+import { Component } from 'react'
 import { Formik } from 'formik'
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 import { Button } from 'react-bootstrap';
+import { auth } from '../../Redux/authActionCreators';
+import { connect } from 'react-redux';
 
+const mapDisPatchToProps = dispatch => {
+    return {
+        auth: (email, password, mode) => dispatch(auth(email, password, mode))
+    }
+}
 export class Auth extends Component {
     state = {
         mode: "Sign Up"
@@ -25,7 +32,7 @@ export class Auth extends Component {
                     }
                     onSubmit={
                         (values) => {
-                            console.log(values);
+                            this.props.auth(values.email, values.password, this.state.mode)
                         }
                     }
 
@@ -103,4 +110,4 @@ export class Auth extends Component {
     }
 }
 
-export default Auth
+export default connect(null, mapDisPatchToProps)(Auth)
