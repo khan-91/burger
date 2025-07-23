@@ -20,6 +20,8 @@ const INITIAL_STATE = {
   modalOpen: false,
   purchasable: false,
   onClickCheckout: false,
+  token: null,
+  userId: null,
 };
 
 export const reducer = (state = INITIAL_STATE, action) => {
@@ -70,6 +72,8 @@ export const reducer = (state = INITIAL_STATE, action) => {
         modalOpen: false,
         purchasable: false,
         onClickCheckout: false,
+        token: null,
+        userId: null,
       }
     case actionTypes.LOAD_ORDERS:
       let orders = [];
@@ -91,6 +95,15 @@ export const reducer = (state = INITIAL_STATE, action) => {
         orderLoading: false,
       }
     }
+
+    //Auth cases
+    case actionTypes.AUTH_SUCCESS:
+      return{
+        ...state,
+        token: action.payload.token,
+        userId: action.payload.userId,
+      }
+
 
     default:
       return state;
