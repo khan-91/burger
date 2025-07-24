@@ -1,5 +1,6 @@
 import { orderLoadFailed } from './actionCreators';
 import * as actionTypes from './actionTypes';
+import { authLoading } from './authActionCreators';
 
 const INGREDIENT_PRICES = {
   salad: 20,
@@ -22,6 +23,8 @@ const INITIAL_STATE = {
   onClickCheckout: false,
   token: null,
   userId: null,
+  authLoading: false,
+  authFailedMsg: null,
 };
 
 export const reducer = (state = INITIAL_STATE, action) => {
@@ -88,23 +91,33 @@ export const reducer = (state = INITIAL_STATE, action) => {
         orders: orders,
         orderLoading: false,
       }
-    case actionTypes.ORDER_LOAD_FAILED:{
-      return{
+    case actionTypes.ORDER_LOAD_FAILED: {
+      return {
         ...state,
-        orderError:true,
+        orderError: true,
         orderLoading: false,
       }
     }
 
     //Auth cases
     case actionTypes.AUTH_SUCCESS:
-      return{
+      return {
         ...state,
         token: action.payload.token,
         userId: action.payload.userId,
       }
 
-
+    case actionTypes.AUTH_LOGOUT:
+      return {
+        ...state,
+        token: null,
+        userId: null,
+      }
+    case actionTypes.AUTH_LOADING:
+      return {
+        ...state,
+        authLoading: action.payload,
+      }
     default:
       return state;
   }

@@ -3,12 +3,21 @@ import { Formik } from 'formik'
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 import { Button } from 'react-bootstrap';
-import { auth } from '../../Redux/authActionCreators';
+import { auth, authLoading } from '../../Redux/authActionCreators';
 import { connect } from 'react-redux';
+import { AUTH_FAILED } from '../../Redux/actionTypes';
+import Spinner from '../Spinner/Spinner';
 
 const mapDisPatchToProps = dispatch => {
     return {
         auth: (email, password, mode) => dispatch(auth(email, password, mode))
+    }
+}
+
+const mapStateToProps = state => {
+    return {
+        authLoading: state.authLoading,
+        authFailedMsg: state.authFailedMsg,
     }
 }
 export class Auth extends Component {
@@ -19,8 +28,11 @@ export class Auth extends Component {
         this.setState({ mode: this.state.mode === "Sign Up" ? "Login" : "Sign Up" })
     }
     render() {
-        return (
-            <div>
+        let form = null;
+        if (this.props.authLoading) {
+            form = <Spinner />
+        } else {
+            form = (
                 <Formik
                     initialValues={
                         {
@@ -104,9 +116,14 @@ export class Auth extends Component {
                     )}
 
                 </Formik>
+            )
+        }
+        return (
+            <div>
+                {form}
             </div>
         )
     }
 }
 
-export default connect(null, mapDisPatchToProps)(Auth)
+export default connect(mapStateToProps, mapDisPatchToProps)(Auth)

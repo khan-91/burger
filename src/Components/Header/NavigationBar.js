@@ -25,6 +25,7 @@ const NavigationBar = props => {
     <Nav className='me-md-1 flex-row gap-3'>
       <Nav.Link as={Link} to='/'>Burger Builder</Nav.Link>
       <Nav.Link as={Link} to='/order'>Order</Nav.Link>
+      <Nav.Link as={Link} to='/logout'>Logout</Nav.Link>
     </Nav>
   );
 }
