@@ -24,7 +24,6 @@ class Order extends Component {
     this.props.fetchOrder(this.props.token, this.props.userId);
   }
   componentDidUpdate() {
-    console.log(this.props);
 
   }
   render() {
