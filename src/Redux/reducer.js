@@ -1,6 +1,4 @@
-import { orderLoadFailed } from './actionCreators';
 import * as actionTypes from './actionTypes';
-import { authLoading } from './authActionCreators';
 
 const INGREDIENT_PRICES = {
   salad: 20,

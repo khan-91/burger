@@ -3,9 +3,8 @@ import { Formik } from 'formik'
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 import { Button } from 'react-bootstrap';
-import { auth, authLoading } from '../../Redux/authActionCreators';
+import { auth } from '../../Redux/authActionCreators';
 import { connect } from 'react-redux';
-import { AUTH_FAILED } from '../../Redux/actionTypes';
 import Alert from 'react-bootstrap/Alert';
 import Spinner from '../Spinner/Spinner';
 
