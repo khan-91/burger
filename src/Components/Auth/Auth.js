@@ -6,9 +6,10 @@ import { Button } from 'react-bootstrap';
 import { auth, authLoading } from '../../Redux/authActionCreators';
 import { connect } from 'react-redux';
 import { AUTH_FAILED } from '../../Redux/actionTypes';
+import Alert from 'react-bootstrap/Alert';
 import Spinner from '../Spinner/Spinner';
 
-const mapDisPatchToProps = dispatch => {
+const mapDispatchToProps = dispatch => {
     return {
         auth: (email, password, mode) => dispatch(auth(email, password, mode))
     }
@@ -28,6 +29,12 @@ export class Auth extends Component {
         this.setState({ mode: this.state.mode === "Sign Up" ? "Login" : "Sign Up" })
     }
     render() {
+        let error = null;
+        if(this.props.authFailedMsg !== null){
+            error = <Alert variant='danger'>
+                {this.props.authFailedMsg}
+            </Alert>
+        }
         let form = null;
         if (this.props.authLoading) {
             form = <Spinner />
@@ -79,7 +86,7 @@ export class Auth extends Component {
                             padding: "15px",
                             borderRadius: "5px",
                         }}>
-                            <Button className='mb-3 btn btn-lg' onClick={this.switchModeHandler} type='submit' style={{ backgroundColor: '#B22222', borderColor: '#B22222', width: "100%" }}>Switch to {this.state.mode === "Sign Up" ? "Login" : "Sign Up"}
+                            <Button className='mb-3 btn btn-lg' onClick={this.switchModeHandler} type='button' style={{ backgroundColor: '#B22222', borderColor: '#B22222', width: "100%" }}>Switch to {this.state.mode === "Sign Up" ? "Login" : "Sign Up"}
                             </Button>
                             <Form onSubmit={handleSubmit}>
                                 <FloatingLabel
@@ -120,10 +127,11 @@ export class Auth extends Component {
         }
         return (
             <div>
+                {error}
                 {form}
             </div>
         )
     }
 }
 
-export default connect(mapStateToProps, mapDisPatchToProps)(Auth)
+export default connect(mapStateToProps, mapDispatchToProps)(Auth)

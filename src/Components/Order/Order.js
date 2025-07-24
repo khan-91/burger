@@ -3,23 +3,26 @@ import { connect } from 'react-redux'
 import { fetchOrder } from '../../Redux/actionCreators'
 import SingleOrder from './SingleOrder/SingleOrder'
 import Spinner from '../Spinner/Spinner'
+import { useInRouterContext } from 'react-router-dom'
 
 const mapStateToProps = state => {
   return {
     orders: state.orders,
     orderLoading: state.orderLoading,
     orderError: state.orderError,
+    token: state.token,
+    userId: state.userId,
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchOrder: () => dispatch(fetchOrder()),
+    fetchOrder: (token, userId) => dispatch(fetchOrder(token, userId)),
   }
 }
 class Order extends Component {
   componentDidMount() {
-    this.props.fetchOrder();
+    this.props.fetchOrder(this.props.token, this.props.userId);
   }
   componentDidUpdate() {
     console.log(this.props);

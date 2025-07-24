@@ -18,6 +18,13 @@ export const authLoading = isLoading => {
     }
 }
 
+export const authFailed = errorMsg => {
+    return {
+        type: actionTypes.AUTH_FAILED,
+        payload: errorMsg,
+    }
+}
+
 export const auth = (email, password, mode) => dispatch => {
     dispatch(authLoading(true));
     const authData = {
@@ -45,8 +52,7 @@ export const auth = (email, password, mode) => dispatch => {
         })
         .catch(error => {
             dispatch(authLoading(false));
-            console.log(error);
-
+            dispatch(authFailed(error.response.data.error.message));
         });
 }
 
@@ -66,8 +72,8 @@ export const authCheck = () => dispatch => {
         dispatch(logout());
     }
     else {
-        const expirationmTime = new Date(localStorage.getItem('expirationTime'));
-        if (expirationmTime <= new Date()) {
+        const expirationTime = new Date(localStorage.getItem('expirationTime'));
+        if (expirationTime <= new Date()) {
             //logout
             dispatch(logout());
         }

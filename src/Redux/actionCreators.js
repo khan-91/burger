@@ -41,12 +41,13 @@ export const orderLoadFailed = () => {
     }
 }
 
-export const fetchOrder = () => dispatch => {
-    axios.get("https://burger-1b173-default-rtdb.firebaseio.com/orders.json")
-    .then(response => {
-        dispatch(loadOrders(response.data));
-    })
-    .catch(error => {
-        dispatch(orderLoadFailed());
-    });
+export const fetchOrder = (token, userId) => dispatch => {
+    const queryParams = '&orderBy="userId"&equalTo="' + userId + '"';
+    axios.get('https://burger-1b173-default-rtdb.firebaseio.com/orders.json?auth=' + token + queryParams)
+        .then(response => {
+            dispatch(loadOrders(response.data));
+        })
+        .catch(error => {
+            dispatch(orderLoadFailed());
+        });
 }
